@@ -6,7 +6,18 @@ export const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
 
-    // Check if user exists
+    if (!email || !password || !name) {
+      return res.status(400).json({
+        status: 400,
+        success: false,
+        message: 'Validation failed',
+        error: {
+          field: !email ? 'email' : !password ? 'password' : 'name',
+          message: `${!email ? 'email' : !password ? 'password' : 'name'} is required`
+        }
+      });
+    }
+
     const userExists = await pool.query(
       'SELECT id FROM users WHERE email = $1',
       [email]
@@ -14,15 +25,18 @@ export const register = async (req, res) => {
 
     if (userExists.rows.length > 0) {
       return res.status(400).json({
+        status: 'error',
         success: false,
-        message: 'User already exists'
+        message: 'Registration failed',
+        error: {
+          field: 'email',
+          message: `Email "${email}" is already registered. Please use a different email or try logging in.`
+        }
       });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
     const result = await pool.query(
       'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, email, name',
       [name, email, hashedPassword]
@@ -32,6 +46,7 @@ export const register = async (req, res) => {
     const token = generateToken({ id: user.id, email: user.email });
 
     res.status(201).json({
+      status: 'success',
       success: true,
       message: 'User registered successfully',
       token,
@@ -39,9 +54,14 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      status: 'error',
       success: false,
       message: 'Registration failed',
-      error: error.message
+      error: {
+        type: error.name || 'ServerError',
+        message: error.message,
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      }
     });
   }
 };
@@ -50,7 +70,18 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
+    if (!email || !password) {
+      return res.status(400).json({
+        status: 'error',
+        success: false,
+        message: 'Validation failed',
+        error: {
+          field: !email ? 'email' : 'password',
+          message: `${!email ? 'email' : 'password'} is required`
+        }
+      });
+    }
+
     const result = await pool.query(
       'SELECT id, email, name, password FROM users WHERE email = $1',
       [email]
@@ -58,8 +89,13 @@ export const login = async (req, res) => {
 
     if (result.rows.length === 0) {
       return res.status(401).json({
+        status: 'error',
         success: false,
-        message: 'Invalid email or password'
+        message: 'Authentication failed',
+        error: {
+          field: 'credentials',
+          message: 'No account found with this email address'
+        }
       });
     }
 
@@ -68,14 +104,20 @@ export const login = async (req, res) => {
 
     if (!passwordMatch) {
       return res.status(401).json({
+        status: 'error',
         success: false,
-        message: 'Invalid email or password'
+        message: 'Authentication failed',
+        error: {
+          field: 'password',
+          message: 'Incorrect password. Please try again.'
+        }
       });
     }
 
     const token = generateToken({ id: user.id, email: user.email });
 
-    res.json({
+    res.status(200).json({
+      status: 'success',
       success: true,
       message: 'Login successful',
       token,
@@ -83,9 +125,14 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      status: 'error',
       success: false,
       message: 'Login failed',
-      error: error.message
+      error: {
+        type: error.name || 'ServerError',
+        message: error.message,
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      }
     });
   }
 };
