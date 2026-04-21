@@ -25,7 +25,7 @@ export const register = async (req, res) => {
 
     if (userExists.rows.length > 0) {
       return res.status(400).json({
-        status: 'error',
+        status: 400,
         success: false,
         message: 'Registration failed',
         error: {
@@ -46,7 +46,7 @@ export const register = async (req, res) => {
     const token = generateToken({ id: user.id, email: user.email });
 
     res.status(201).json({
-      status: 'success',
+      status: 201,
       success: true,
       message: 'User registered successfully',
       token,
@@ -54,7 +54,7 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
+      status: 500,
       success: false,
       message: 'Registration failed',
       error: {
@@ -72,7 +72,7 @@ export const login = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({
-        status: 'error',
+        status: 400,
         success: false,
         message: 'Validation failed',
         error: {
@@ -89,7 +89,7 @@ export const login = async (req, res) => {
 
     if (result.rows.length === 0) {
       return res.status(401).json({
-        status: 'error',
+        status: 401,
         success: false,
         message: 'Authentication failed',
         error: {
@@ -104,7 +104,7 @@ export const login = async (req, res) => {
 
     if (!passwordMatch) {
       return res.status(401).json({
-        status: 'error',
+        status: 401,
         success: false,
         message: 'Authentication failed',
         error: {
@@ -117,7 +117,7 @@ export const login = async (req, res) => {
     const token = generateToken({ id: user.id, email: user.email });
 
     res.status(200).json({
-      status: 'success',
+      status: 200,
       success: true,
       message: 'Login successful',
       token,
@@ -125,7 +125,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: 'error',
+      status: 500,
       success: false,
       message: 'Login failed',
       error: {
