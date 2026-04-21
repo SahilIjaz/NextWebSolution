@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import pool from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
@@ -47,6 +48,18 @@ app.use((req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Test database connection and start server
+pool.query('SELECT NOW()', (err, result) => {
+  if (err) {
+    console.error('❌ Database Connection Failed:', err.message);
+    process.exit(1);
+  } else {
+    console.log('✅ Database Connected Successfully');
+    console.log('📅 Server Time:', result.rows[0].now);
+
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on http://localhost:${PORT}`);
+      console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+    });
+  }
 });
