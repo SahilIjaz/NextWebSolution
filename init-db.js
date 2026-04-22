@@ -168,6 +168,45 @@ async function initDatabase() {
         `);
         console.log('✓ pricing_plans table ready');
 
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS company_values (
+              id SERIAL PRIMARY KEY,
+              title VARCHAR(255) NOT NULL,
+              icon_name VARCHAR(100),
+              description TEXT,
+              display_order INTEGER,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+        console.log('✓ company_values table ready');
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS tech_stack (
+              id SERIAL PRIMARY KEY,
+              name VARCHAR(255) NOT NULL,
+              category VARCHAR(100),
+              display_order INTEGER,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+        console.log('✓ tech_stack table ready');
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS contact_info (
+              id SERIAL PRIMARY KEY,
+              method_type VARCHAR(100) NOT NULL,
+              label VARCHAR(255) NOT NULL,
+              value VARCHAR(500) NOT NULL,
+              icon_name VARCHAR(100),
+              display_order INTEGER,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+        console.log('✓ contact_info table ready');
+
         // Create indexes
         console.log('\n📊 Creating indexes...\n');
 
@@ -179,6 +218,9 @@ async function initDatabase() {
             CREATE INDEX IF NOT EXISTS idx_testimonials_rating ON testimonials(rating);
             CREATE INDEX IF NOT EXISTS idx_services_order ON services(display_order);
             CREATE INDEX IF NOT EXISTS idx_pricing_order ON pricing_plans(display_order);
+            CREATE INDEX IF NOT EXISTS idx_values_order ON company_values(display_order);
+            CREATE INDEX IF NOT EXISTS idx_tech_category ON tech_stack(category);
+            CREATE INDEX IF NOT EXISTS idx_contact_type ON contact_info(method_type);
         `);
         console.log('✓ Indexes created');
 
