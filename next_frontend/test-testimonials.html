@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Testimonials Test</title>
+</head>
+<body>
+    <h1>Testing Testimonials Load</h1>
+    <div id="status">Loading...</div>
+    <div id="testimonials" style="border: 1px solid black; padding: 20px; margin-top: 20px;"></div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api';
+
+        async function loadTestimonials() {
+            try {
+                document.getElementById('status').innerHTML = 'Fetching from: ' + API_BASE_URL + '/testimonials';
+                const response = await fetch(`${API_BASE_URL}/testimonials`);
+                document.getElementById('status').innerHTML += '<br/>Response status: ' + response.status;
+                const data = await response.json();
+                document.getElementById('status').innerHTML += '<br/>Success: ' + data.success;
+                document.getElementById('status').innerHTML += '<br/>Records: ' + (data.data?.length || 0);
+                
+                if (data.success && data.data) {
+                    const html = data.data.map((t, i) => `
+                        <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+                            <strong>${t.name}</strong> - ${t.role}<br/>
+                            <em>"${t.message}"</em><br/>
+                            Rating: ${'⭐'.repeat(t.rating)}
+                        </div>
+                    `).join('');
+                    document.getElementById('testimonials').innerHTML = html;
+                }
+            } catch (error) {
+                document.getElementById('status').innerHTML = 'ERROR: ' + error.message;
+                console.error(error);
+            }
+        }
+
+        window.onload = loadTestimonials;
+    </script>
+</body>
+</html>

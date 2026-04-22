@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="NextWeb Software House — Premium web design, development, and digital marketing agency. We design, deploy, and grow your digital presence.">
+    <meta name="keywords" content="web design, web development, digital marketing, SEO, branding, software house">
+    <meta property="og:title" content="NextWeb — Design. Deploy. Grow.">
+    <meta property="og:description"
+        content="Premium software house specializing in web design, development, and digital marketing.">
+    <title>NextWeb — Design. Deploy. Grow.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/x-icon" href="logo.png">
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- Cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Background Effects -->
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="grid-glow" aria-hidden="true"></div>
+
+    <!-- ═══════════════════════════════
+     NAVBAR
+═══════════════════════════════ -->
+    <nav role="navigation" aria-label="Main navigation">
+        <a class="nav-logo" onclick="navigate('home')" aria-label="NextWeb Home">
+            <span class="nav-logo-main">NEXT<span>WEB</span></span>
+            <span class="nav-logo-sub">Software House</span>
+        </a>
+        <div class="nav-links" role="list">
+            <a class="nav-link active" onclick="navigate('home')" role="listitem" aria-current="page">Home</a>
+            <a class="nav-link" onclick="navigate('services')" role="listitem">Services</a>
+            <a class="nav-link" onclick="navigate('portfolio')" role="listitem">Portfolio</a>
+            <a class="nav-link" onclick="navigate('about')" role="listitem">About</a>
+            <a class="nav-link" onclick="navigate('contact')" role="listitem">Contact</a>
+        </div>
+        <a class="nav-cta" onclick="navigate('contact')" aria-label="Start a project">
+            Start Project
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+            </svg>
+        </a>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+        <a class="mobile-link active" onclick="navigate('home');toggleMenu()">Home</a>
+        <a class="mobile-link" onclick="navigate('services');toggleMenu()">Services</a>
+        <a class="mobile-link" onclick="navigate('portfolio');toggleMenu()">Portfolio</a>
+        <a class="mobile-link" onclick="navigate('about');toggleMenu()">About</a>
+        <a class="mobile-link" onclick="navigate('contact');toggleMenu()">Contact</a>
+    </div>
+
+    <!-- ═══════════════════════════════
+     HOME PAGE
+═══════════════════════════════ -->
+    <main>
+        <div id="page-home" class="page active" role="main">
+
+            <!-- Hero -->
+            <section class="hero" aria-label="Hero section">
+                <div class="hero-text">
+                    <div class="tag">✦ Available for Projects</div>
+                    <h1 class="hero-title display-text" aria-label="Design, Deployments, Grow">
+                        <span class="line"><span>Design</span></span>
+                        <span class="line"><span>Deploy&shy;ments</span></span>
+                        <span class="line"><span>Grow</span></span>
+                    </h1>
+                    <p class="hero-desc">We build premium digital experiences — from pixel-perfect design to scalable
+                        deployment. Your vision, our expertise.</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" onclick="navigate('contact')" aria-label="Start your project">
+                            Start a Project <span class="arrow">↗</span>
+                        </a>
+                        <a class="btn btn-outline" onclick="navigate('portfolio')" aria-label="View our portfolio">
+                            View Our Work
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div>
+                            <div class="stat-num">50<span>+</span></div>
+                            <div class="stat-label">Projects Delivered</div>
+                        </div>
+                        <div>
+                            <div class="stat-num">98<span>%</span></div>
+                            <div class="stat-label">Client Satisfaction</div>
+                        </div>
+                        <div>
+                            <div class="stat-num">5<span>yr</span></div>
+                            <div class="stat-label">Industry Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-img-wrap" aria-label="Digital services visualization" role="img">
+                        <div class="hero-img-inner">
+                            <div class="hero-chart-bar">
+                                <div class="bar-fill" style="height:70%"></div>
+                            </div>
+                            <div class="hero-chart-bar">
+                                <div class="bar-fill" style="height:90%"></div>
+                            </div>
+                            <div class="hero-chart-bar">
+                                <div class="bar-fill" style="height:55%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-badge">
+                        <div class="badge-dot" aria-hidden="true"></div>
+                        <span class="badge-text">Currently taking new clients</span>
+                    </div>
+                    <div class="services-list" style="margin-top:36px">
+                        <div class="service-tag">Marketing Consult</div>
+                        <div class="service-tag">SEO / PPC</div>
+                        <div class="service-tag">Social Media</div>
+                        <div class="service-tag">GG / FB Ads</div>
+                        <div class="service-tag">Branding Identity</div>
+                        <div class="service-tag">Web Dev</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marquee -->
+            <div class="marquee-section" aria-hidden="true">
+                <div class="marquee-track">
+                    <div class="marquee-item"><span class="marquee-dot"></span>WEB DESIGN</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>DEVELOPMENT</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>SEO & MARKETING</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>BRANDING</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>MOBILE APPS</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>E-COMMERCE</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>WEB DESIGN</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>DEVELOPMENT</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>SEO & MARKETING</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>BRANDING</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>MOBILE APPS</div>
+                    <div class="marquee-item"><span class="marquee-dot"></span>E-COMMERCE</div>
+                </div>
+            </div>
+
+            <!-- Process -->
+            <section class="section" aria-label="Our process">
+                <div class="container">
+                    <div class="tag">Our Process</div>
+                    <h2 class="section-title">How We <span class="highlight">Work</span></h2>
+                    <p class="section-subtitle">A proven 4-step framework to transform your idea into a live,
+                        high-performing digital product.</p>
+                    <div class="process-grid reveal">
+                        <div class="process-item">
+                            <div class="process-num">01</div>
+                            <h3>Discovery</h3>
+                            <p>Deep dive into your goals, audience, and market. We map the strategy before writing a
+                                single line of code.</p>
+                        </div>
+                        <div class="process-item">
+                            <div class="process-num">02</div>
+                            <h3>Design</h3>
+                            <p>Wireframes, prototypes, and pixel-perfect UI. Every interaction crafted with intention
+                                and user-first thinking.</p>
+                        </div>
+                        <div class="process-item">
+                            <div class="process-num">03</div>
+                            <h3>Develop</h3>
+                            <p>Production-grade code built for speed, scalability, and SEO. We build what browsers love
+                                and users remember.</p>
+                        </div>
+                        <div class="process-item">
+                            <div class="process-num">04</div>
+                            <h3>Deploy & Grow</h3>
+                            <p>Launch with confidence. Ongoing support, analytics, and marketing to grow your digital
+                                footprint.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="section" style="padding-top:0" aria-label="Client testimonials">
+                <div class="container">
+                    <div class="tag">Testimonials</div>
+                    <h2 class="section-title">What Clients <span class="highlight">Say</span></h2>
+                    <div class="testimonial-grid"></div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="section-sm" aria-label="Call to action">
+                <div class="container">
+                    <div class="cta-banner reveal">
+                        <h2>Ready to build something <em>great?</em></h2>
+                        <a class="btn btn-white" onclick="navigate('contact')">Let's Talk <span
+                                class="arrow">↗</span></a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ═══════════════════════════════
+     SERVICES PAGE
+═══════════════════════════════ -->
+        <div id="page-services" class="page" role="main">
+
+            <section class="services-hero" aria-label="Services hero">
+                <div class="tag">What We Offer</div>
+                <h1 class="display-text">Our <span class="highlight">Services</span></h1>
+                <p>End-to-end digital solutions built for performance, growth, and lasting brand impact.</p>
+                <a class="btn btn-primary" onclick="navigate('contact')">Get a Free Quote <span
+                        class="arrow">↗</span></a>
+            </section>
+            <div class="divider"></div>
+
+     
+<section class="section" aria-label="Services list">
+    <div class="container">
+        <div class="services-grid">
+
+            <!-- 01 -->
+
+        </div>
+    </div>
+</section>
+
+            <!-- Pricing -->
+            <section class="section" style="padding-top:0" aria-label="Pricing plans">
+                <div class="container">
+                    <div class="tag">Transparent Pricing</div>
+                    <h2 class="section-title">Simple, <span class="highlight">Fair</span> Plans</h2>
+                    <p class="section-subtitle">No hidden fees. No surprises. Pick a plan that fits your stage and scale
+                        from there.</p>
+                    <div class="pricing-grid"></div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ═══════════════════════════════
+     PORTFOLIO PAGE
+═══════════════════════════════ -->
+        <div id="page-portfolio" class="page" role="main">
+
+            <section class="portfolio-hero" aria-label="Portfolio">
+                <div class="container">
+                    <div class="tag">Our Work</div>
+                    <h1 class="display-text">Selected <span class="highlight">Projects</span></h1>
+                    <p style="color:var(--gray);font-size:1rem;max-width:500px;line-height:1.8;margin-top:12px">Real
+                        work for real clients. Every project is built with intention, performance, and business goals in
+                        mind.</p>
+                    <div class="portfolio-filters" role="list" aria-label="Portfolio filters">
+                        <button class="filter-btn active" role="listitem">All</button>
+                        <button class="filter-btn" role="listitem">Web Design</button>
+                        <button class="filter-btn" role="listitem">Development</button>
+                        <button class="filter-btn" role="listitem">Branding</button>
+                        <button class="filter-btn" role="listitem">Marketing</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" style="padding-top:20px" aria-label="Portfolio grid">
+                <div class="container">
+                    <div class="portfolio-grid"></div>
+                </div>
+            </section>
+
+            <section class="section-sm" aria-label="Portfolio CTA">
+                <div class="container">
+                    <div class="cta-banner reveal">
+                        <h2>Like what you see? Let's build yours.</h2>
+                        <a class="btn btn-white" onclick="navigate('contact')">Start a Project <span
+                                class="arrow">↗</span></a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ═══════════════════════════════
+     ABOUT PAGE
+═══════════════════════════════ -->
+        <div id="page-about" class="page" role="main">
+
+            <section class="about-split" aria-label="About NextWeb">
+                <div class="about-visual reveal">
+                    <div class="about-img-grid">
+
+                        <div class="about-img-item" aria-hidden="true">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                    
+                        <div class="about-img-item" aria-hidden="true">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                    
+                        <div class="about-img-item" aria-hidden="true">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                    
+                        <div class="about-img-item"
+                            style="background:linear-gradient(135deg,rgba(9,132,227,0.12),rgba(9,132,227,0.02))"
+                            aria-hidden="true">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                    
+                    </div>
+                    <div class="about-float" aria-label="5 years of excellence">
+                        <div class="about-float-num">5+</div>
+                        <div class="about-float-text">Years of Excellence</div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <div class="tag">Our Story</div>
+                    <h1>We Build Digital <span class="highlight">Experiences</span> That Matter</h1>
+                    <p>NextWeb was founded in Rawalpindi with a simple belief: every business deserves a world-class
+                        digital presence, regardless of size. We combine strategic thinking with technical mastery and
+                        design craft.</p>
+                    <p>From lean startups to established enterprises, we've partnered with 50+ clients across Pakistan
+                        and beyond — delivering websites, apps, and campaigns that drive measurable growth.</p>
+                        <div class="values-grid"></div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- Team -->
+            <section class="section" aria-label="Our team">
+                <div class="container">
+                    <div class="tag">The Team</div>
+                    <h2 class="section-title">Meet Our <span class="highlight">Experts</span></h2>
+                    <div class="team-grid"></div>
+                </div>
+            </section>
+
+            <!-- Tech Stack -->
+            <section class="section" style="padding-top:0" aria-label="Technology stack">
+                <div class="container">
+                    <div class="tag">Tech Stack</div>
+                    <h2 class="section-title">Tools We <span class="highlight">Master</span></h2>
+                    <div class="tech-stack"></div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ═══════════════════════════════
+     CONTACT PAGE
+═══════════════════════════════ -->
+        <div id="page-contact" class="page" role="main">
+
+            <section class="contact-split" aria-label="Contact NextWeb">
+                <div class="contact-info">
+                    <div class="tag">Get In Touch</div>
+                    <h1>Let's Build Something <span class="highlight">Great</span> Together</h1>
+                    <p>Whether you have a fully fleshed idea or just a rough concept — we're here to listen, advise, and
+                        execute.</p>
+                        <div class="contact-methods"></div>
+                    <div class="footer-socials" style="margin-top:0">
+                        <a class="social-btn" href="#" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a class="social-btn" href="#" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a class="social-btn" href="#" aria-label="Twitter/X">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a class="social-btn" href="#" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form reveal" role="form" aria-label="Contact form">
+                    <h2 class="form-title">Start Your Project</h2>
+                    <p class="form-subtitle">Fill in the details and we'll get back to you within 24 hours.</p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="firstName">First Name *</label>
+                            <input class="form-input" id="firstName" type="text" placeholder="Ahmed" required
+                                aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastName">Last Name *</label>
+                            <input class="form-input" id="lastName" type="text" placeholder="Hassan" required
+                                aria-required="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address *</label>
+                        <input class="form-input" id="email" type="email" placeholder="ahmed@company.com" required
+                            aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone / WhatsApp</label>
+                        <input class="form-input" id="phone" type="tel" placeholder="+92 300 0000000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="service">Service Needed *</label>
+                        <select class="form-select" id="service" required aria-required="true">
+                            <option value="" disabled selected>Select a service...</option>
+                            <option>Web Design & Development</option>
+                            <option>E-Commerce Platform</option>
+                            <option>SEO & PPC Campaign</option>
+                            <option>Social Media Management</option>
+                            <option>Branding & Identity</option>
+                            <option>Marketing Consulting</option>
+                            <option>Full Digital Package</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="budget">Budget Range</label>
+                        <select class="form-select" id="budget">
+                            <option value="" disabled selected>Select your budget...</option>
+                            <option>Under $500</option>
+                            <option>$500 – $1,500</option>
+                            <option>$1,500 – $5,000</option>
+                            <option>$5,000 – $15,000</option>
+                            <option>$15,000+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="message">Project Details *</label>
+                        <textarea class="form-textarea" id="message"
+                            placeholder="Tell us about your project, goals, timeline, and anything else you'd like us to know..."
+                            required aria-required="true"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-check">
+                            <input type="checkbox" required aria-required="true">
+                            I agree to the Privacy Policy and Terms of Service.
+                        </label>
+                    </div>
+                    <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem"
+                        onclick="submitForm(event)" type="button">
+                        Send Message <span class="arrow">↗</span>
+                    </button>
+                    <div class="success-msg" id="successMsg" role="alert">
+                        ✓ Message sent successfully! We'll get back to you within 24 hours.
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════
+     FOOTER
+═══════════════════════════════ -->
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="nav-logo" style="cursor:default">
+                        <span class="nav-logo-main">NEXT<span style="color:var(--green)">WEB</span></span>
+                        <span class="nav-logo-sub">Software House</span>
+                    </div>
+                    <p>Premium digital solutions for businesses that want to stand out, scale up, and stay ahead.</p>
+                    <div class="footer-socials" style="margin-top:0">
+                        <a class="social-btn" href="#" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a class="social-btn" href="#" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a class="social-btn" href="#" aria-label="Twitter/X">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a class="social-btn" href="#" aria-label="WhatsApp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <div class="footer-links">
+                        <a class="footer-link" onclick="navigate('services')">Web Design</a>
+                        <a class="footer-link" onclick="navigate('services')">Development</a>
+                        <a class="footer-link" onclick="navigate('services')">SEO & PPC</a>
+                        <a class="footer-link" onclick="navigate('services')">Social Media</a>
+                        <a class="footer-link" onclick="navigate('services')">Branding</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <div class="footer-links">
+                        <a class="footer-link" onclick="navigate('about')">About Us</a>
+                        <a class="footer-link" onclick="navigate('portfolio')">Portfolio</a>
+                        <a class="footer-link" onclick="navigate('about')">Our Team</a>
+                        <a class="footer-link" onclick="navigate('contact')">Careers</a>
+                        <a class="footer-link" onclick="navigate('contact')">Blog</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <div class="footer-links">
+                        <a class="footer-link">nextwe.solutions.pk@gmail.com</a>
+                        <a class="footer-link">+92 309 7553991</a>
+                        <a class="footer-link">Remote job , Pakistan</a>
+                        <a class="footer-link" onclick="navigate('contact')"
+                            style="color:var(--green);margin-top:8px">Start a Project ↗</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 NextWeb Software House. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a class="footer-bottom-link" href="#">Privacy Policy</a>
+                    <a class="footer-bottom-link" href="#">Terms of Service</a>
+                    <a class="footer-bottom-link" href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="load-testimonials.js"></script>
+</body>
+
+</html>

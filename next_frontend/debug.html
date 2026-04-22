@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextWeb Debug Console</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .section {
+            margin: 20px 0;
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success { color: #4ec9b0; }
+        .error { color: #f48771; }
+        .info { color: #569cd6; }
+        .warning { color: #ce9178; }
+        h2 { border-bottom: 2px solid #666; padding-bottom: 10px; }
+        pre { background: #252526; padding: 10px; overflow-x: auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🔧 NextWeb Debug Console</h1>
+
+    <div class="section">
+        <h2>System Status</h2>
+        <div id="system-status"></div>
+    </div>
+
+    <div class="section">
+        <h2>API Endpoints Test</h2>
+        <div id="api-status"></div>
+        <button onclick="testAllAPIs()">Test All APIs</button>
+    </div>
+
+    <div class="section">
+        <h2>Testimonials Fetch Test</h2>
+        <div id="testimonials-test"></div>
+        <button onclick="testTestimonials()">Test Testimonials</button>
+    </div>
+
+    <div class="section">
+        <h2>DOM Check</h2>
+        <div id="dom-check"></div>
+        <button onclick="checkDOM()">Check DOM Elements</button>
+    </div>
+
+    <div class="section">
+        <h2>Manual Load Test</h2>
+        <button onclick="manualLoadTestimonials()">Load Testimonials</button>
+        <div id="testimonials-content" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api';
+
+        function log(elementId, message, type = 'info') {
+            const el = document.getElementById(elementId);
+            const color = type === 'success' ? 'green' : type === 'error' ? 'red' : type === 'warning' ? 'orange' : 'blue';
+            el.innerHTML += `<div style="color: ${color};">[${type.toUpperCase()}] ${message}</div>`;
+        }
+
+        function clearLog(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        async function testAllAPIs() {
+            clearLog('api-status');
+            log('api-status', 'Testing all API endpoints...', 'info');
+
+            const endpoints = [
+                { name: 'Testimonials', url: '/testimonials' },
+                { name: 'Services', url: '/services/services' },
+                { name: 'Pricing', url: '/services/pricing' },
+                { name: 'Portfolio', url: '/portfolio' },
+                { name: 'Team', url: '/team' },
+                { name: 'Values', url: '/company/values' },
+                { name: 'Tech Stack', url: '/company/tech-stack' },
+                { name: 'Contact Info', url: '/company/contact-info' }
+            ];
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}${endpoint.url}`);
+                    const data = await response.json();
+                    const count = data.data?.length || 0;
+                    const status = data.success ? 'success' : 'error';
+                    log('api-status', `${endpoint.name}: ${count} records`, status);
+                } catch (error) {
+                    log('api-status', `${endpoint.name}: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        async function testTestimonials() {
+            clearLog('testimonials-test');
+            log('testimonials-test', 'Testing testimonials API...', 'info');
+            log('testimonials-test', `API URL: ${API_BASE_URL}/testimonials`, 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/testimonials`);
+                log('testimonials-test', `Response status: ${response.status}`, 'info');
+                const data = await response.json();
+                log('testimonials-test', `Response received: ${JSON.stringify(data).substring(0, 100)}...`, 'info');
+
+                if (data.success) {
+                    log('testimonials-test', `Found ${data.data.length} testimonials`, 'success');
+                    data.data.forEach((t, i) => {
+                        log('testimonials-test', `${i+1}. ${t.name} - ${t.role}`, 'success');
+                    });
+                } else {
+                    log('testimonials-test', 'API returned success: false', 'error');
+                }
+            } catch (error) {
+                log('testimonials-test', `Error: ${error.message}`, 'error');
+                log('testimonials-test', `Stack: ${error.stack}`, 'error');
+            }
+        }
+
+        function checkDOM() {
+            clearLog('dom-check');
+            const selectors = ['.testimonial-grid', '.team-grid', '.services-grid', '.pricing-grid', '.portfolio-grid', '.values-grid', '.tech-stack', '.contact-methods'];
+
+            selectors.forEach(selector => {
+                const el = document.querySelector(selector);
+                const status = el ? 'success' : 'error';
+                const type = el ? 'Found' : 'Missing';
+                log('dom-check', `${selector}: ${type}`, status);
+            });
+
+            const script = document.querySelector('script[src="script.js"]');
+            const scriptStatus = script ? 'Found' : 'Missing';
+            log('dom-check', `script.js: ${scriptStatus}`, script ? 'success' : 'error');
+        }
+
+        async function manualLoadTestimonials() {
+            const container = document.getElementById('testimonials-content');
+            container.innerHTML = '<p>Loading...</p>';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/testimonials`);
+                const data = await response.json();
+
+                if (data.success) {
+                    container.innerHTML = data.data.map((t, i) => `
+                        <div style="border: 1px solid #444; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                            <h3>${t.name}</h3>
+                            <p style="color: #888;">${t.role}</p>
+                            <p>"${t.message}"</p>
+                            <p>Rating: ${'⭐'.repeat(t.rating)}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p class="error">API returned success: false</p>';
+                }
+            } catch (error) {
+                container.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-run on load
+        window.onload = () => {
+            log('system-status', 'Debug Console Ready', 'success');
+            log('system-status', `API Base URL: ${API_BASE_URL}`, 'info');
+            checkDOM();
+            testAllAPIs();
+        };
+    </script>
+</body>
+</html>

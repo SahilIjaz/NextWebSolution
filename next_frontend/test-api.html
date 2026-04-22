@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Testing API Endpoints</h1>
+    <div id="testimonials"></div>
+    <div id="services"></div>
+    <div id="values"></div>
+    <div id="techstack"></div>
+    <div id="contact"></div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api';
+
+        async function testTestimonials() {
+            try {
+                console.log('Fetching testimonials...');
+                const response = await fetch(`${API_BASE_URL}/testimonials`);
+                console.log('Response status:', response.status);
+                const data = await response.json();
+                console.log('Testimonials data:', data);
+                document.getElementById('testimonials').innerHTML = `<h2>Testimonials (${data.data?.length || 0})</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('testimonials').innerHTML = `<h2>Error: ${error.message}</h2>`;
+            }
+        }
+
+        async function testAllEndpoints() {
+            const endpoints = [
+                { name: 'Testimonials', url: '/testimonials', id: 'testimonials' },
+                { name: 'Services', url: '/services/services', id: 'services' },
+                { name: 'Values', url: '/company/values', id: 'values' },
+                { name: 'Tech Stack', url: '/company/tech-stack', id: 'techstack' },
+                { name: 'Contact Info', url: '/company/contact-info', id: 'contact' }
+            ];
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}${endpoint.url}`);
+                    const data = await response.json();
+                    const count = data.data?.length || 0;
+                    document.getElementById(endpoint.id).innerHTML = `<h2>✅ ${endpoint.name}: ${count} records</h2>`;
+                } catch (error) {
+                    document.getElementById(endpoint.id).innerHTML = `<h2>❌ ${endpoint.name}: ${error.message}</h2>`;
+                }
+            }
+        }
+
+        window.onload = testAllEndpoints;
+    </script>
+</body>
+</html>
