@@ -46,14 +46,38 @@ export const createProject = async (req, res) => {
 
 export const getProjects = async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT id, title, description, image_url, technologies, live_link, github_link, created_at FROM projects ORDER BY created_at DESC'
-    );
+    const { category, limit = 10, offset = 0 } = req.query;
+
+    let query = 'SELECT id, title, description, category, thumbnail_url, image_url, technologies, live_link, tags, case_study_url, created_at FROM projects';
+    let countQuery = 'SELECT COUNT(*) FROM projects';
+    const params = [];
+    let paramIndex = 1;
+
+    if (category && category !== 'All') {
+      query += ` WHERE category = $${paramIndex}`;
+      countQuery += ` WHERE category = $${paramIndex}`;
+      params.push(category);
+      paramIndex++;
+    }
+
+    query += ' ORDER BY created_at DESC LIMIT $' + paramIndex + ' OFFSET $' + (paramIndex + 1);
+    params.push(parseInt(limit), parseInt(offset));
+
+    const [result, countResult] = await Promise.all([
+      pool.query(query, params),
+      pool.query(countQuery, params.slice(0, paramIndex - 1))
+    ]);
 
     res.status(200).json({
       status: 200,
       success: true,
-      data: result.rows
+      data: result.rows,
+      pagination: {
+        total: parseInt(countResult.rows[0].count),
+        limit: parseInt(limit),
+        offset: parseInt(offset),
+        hasMore: parseInt(offset) + parseInt(limit) < parseInt(countResult.rows[0].count)
+      }
     });
   } catch (error) {
     res.status(500).json({
