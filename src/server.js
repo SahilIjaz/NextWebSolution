@@ -6,6 +6,9 @@ import pool from './config/database.js';
 import authRoutes from './routes/authRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import portfolioRoutes from './routes/portfolioRoutes.js';
+import testimonialRoutes from './routes/testimonialRoutes.js';
+import teamRoutes from './routes/teamRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
 
 dotenv.config();
 
@@ -25,6 +28,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/team', teamRoutes);
+app.use('/api/services', serviceRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
