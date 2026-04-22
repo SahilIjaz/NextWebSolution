@@ -10,7 +10,7 @@ export const getServices = async (req, res) => {
 
     const services = result.rows.map(service => ({
       ...service,
-      features: service.features ? service.features.split(',').map(f => f.trim()) : []
+      features: service.features ? (typeof service.features === 'string' ? JSON.parse(service.features) : service.features) : []
     }));
 
     res.status(200).json({
@@ -42,7 +42,7 @@ export const getPricingPlans = async (req, res) => {
 
     const plans = result.rows.map(plan => ({
       ...plan,
-      features: plan.features ? plan.features.split(',').map(f => f.trim()) : []
+      features: plan.features ? (typeof plan.features === 'string' ? JSON.parse(plan.features) : plan.features) : []
     }));
 
     res.status(200).json({
@@ -80,7 +80,7 @@ export const createService = async (req, res) => {
       });
     }
 
-    const featuresStr = Array.isArray(features) ? features.join(', ') : features || null;
+    const featuresStr = Array.isArray(features) ? JSON.stringify(features) : (typeof features === 'string' ? features : null);
 
     const result = await pool.query(
       `INSERT INTO services (title, description, icon_name, features, display_order)
@@ -90,7 +90,7 @@ export const createService = async (req, res) => {
     );
 
     const service = result.rows[0];
-    service.features = service.features ? service.features.split(',').map(f => f.trim()) : [];
+    service.features = service.features ? (typeof service.features === 'string' ? JSON.parse(service.features) : service.features) : [];
 
     res.status(201).json({
       status: 201,
@@ -128,7 +128,7 @@ export const createPricingPlan = async (req, res) => {
       });
     }
 
-    const featuresStr = Array.isArray(features) ? features.join(', ') : features || null;
+    const featuresStr = Array.isArray(features) ? JSON.stringify(features) : (typeof features === 'string' ? features : null);
 
     const result = await pool.query(
       `INSERT INTO pricing_plans (plan_name, description, price_pkr, price_currency, plan_type, features, featured, display_order)
@@ -138,7 +138,7 @@ export const createPricingPlan = async (req, res) => {
     );
 
     const plan = result.rows[0];
-    plan.features = plan.features ? plan.features.split(',').map(f => f.trim()) : [];
+    plan.features = plan.features ? (typeof plan.features === 'string' ? JSON.parse(plan.features) : plan.features) : [];
 
     res.status(201).json({
       status: 201,
@@ -177,7 +177,7 @@ export const updateService = async (req, res) => {
       });
     }
 
-    const featuresStr = Array.isArray(features) ? features.join(', ') : features;
+    const featuresStr = Array.isArray(features) ? JSON.stringify(features) : (typeof features === 'string' ? features : undefined);
 
     const result = await pool.query(
       `UPDATE services
@@ -201,7 +201,7 @@ export const updateService = async (req, res) => {
     }
 
     const service = result.rows[0];
-    service.features = service.features ? service.features.split(',').map(f => f.trim()) : [];
+    service.features = service.features ? (typeof service.features === 'string' ? JSON.parse(service.features) : service.features) : [];
 
     res.status(200).json({
       status: 200,
@@ -240,7 +240,7 @@ export const updatePricingPlan = async (req, res) => {
       });
     }
 
-    const featuresStr = Array.isArray(features) ? features.join(', ') : features;
+    const featuresStr = Array.isArray(features) ? JSON.stringify(features) : (typeof features === 'string' ? features : undefined);
 
     const result = await pool.query(
       `UPDATE pricing_plans
@@ -267,7 +267,7 @@ export const updatePricingPlan = async (req, res) => {
     }
 
     const plan = result.rows[0];
-    plan.features = plan.features ? plan.features.split(',').map(f => f.trim()) : [];
+    plan.features = plan.features ? (typeof plan.features === 'string' ? JSON.parse(plan.features) : plan.features) : [];
 
     res.status(200).json({
       status: 200,
