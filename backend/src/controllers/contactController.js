@@ -1,4 +1,5 @@
 import pool from '../config/database.js';
+import { sendFormConfirmationEmails } from '../services/emailService.js';
 
 export const submitContact = async (req, res) => {
   try {
@@ -31,11 +32,16 @@ export const submitContact = async (req, res) => {
     const result = await pool.query(
       `INSERT INTO contacts (first_name, last_name, email, phone, service, budget, message, agree_to_terms, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'new')
-       RETURNING id, first_name, last_name, email, service, created_at`,
+       RETURNING id, first_name, last_name, email, phone, service, budget, message, created_at`,
       [firstName, lastName, email, phone || null, service, budget || null, message, agreeToTerms]
     );
 
     const contact = result.rows[0];
+
+    // Send confirmation emails asynchronously (don't block the response)
+    sendFormConfirmationEmails(contact).catch(err => {
+      console.error('Failed to send emails:', err);
+    });
 
     res.status(201).json({
       status: 201,
