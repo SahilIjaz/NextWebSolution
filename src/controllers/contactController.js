@@ -60,7 +60,7 @@ export const submitContact = async (req, res) => {
 export const getContacts = async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT id, first_name, last_name, email, phone, service, budget, message, status, created_at
+      `SELECT id, name, email, phone, message, subject, created_at
        FROM contacts ORDER BY created_at DESC`
     );
 

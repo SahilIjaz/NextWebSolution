@@ -46,6 +46,18 @@ async function initDatabase() {
             console.log('ℹ Columns already exist or error occurred:', err.message.split('\n')[0]);
         }
 
+        try {
+            await pool.query(`
+                ALTER TABLE contacts ADD COLUMN IF NOT EXISTS status VARCHAR(50) DEFAULT 'new';
+                ALTER TABLE contacts ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+                ALTER TABLE contacts ADD COLUMN IF NOT EXISTS service VARCHAR(255);
+                ALTER TABLE contacts ADD COLUMN IF NOT EXISTS budget VARCHAR(100);
+            `);
+            console.log('✓ Missing columns added to contacts table');
+        } catch (err) {
+            console.log('ℹ Columns already exist or error occurred:', err.message.split('\n')[0]);
+        }
+
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
               id SERIAL PRIMARY KEY,
