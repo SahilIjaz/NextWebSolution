@@ -10,7 +10,7 @@ import {
   createContactMethod,
   deleteContactMethod
 } from '../controllers/companyController.js';
-import { authenticate } from '../middleware/authMiddleware.js';
+import { authMiddleware } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -19,23 +19,23 @@ const router = express.Router();
 // ═══════════════════════════════════════
 
 router.get('/values', getValues);
-router.post('/values', authenticate, createValue);
-router.delete('/values/:id', authenticate, deleteValue);
+router.post('/values', authMiddleware, createValue);
+router.delete('/values/:id', authMiddleware, deleteValue);
 
 // ═══════════════════════════════════════
 // TECH STACK ROUTES
 // ═══════════════════════════════════════
 
 router.get('/tech-stack', getTechStack);
-router.post('/tech-stack', authenticate, createTech);
-router.delete('/tech-stack/:id', authenticate, deleteTech);
+router.post('/tech-stack', authMiddleware, createTech);
+router.delete('/tech-stack/:id', authMiddleware, deleteTech);
 
 // ═══════════════════════════════════════
 // CONTACT INFO ROUTES
 // ═══════════════════════════════════════
 
 router.get('/contact-info', getContactInfo);
-router.post('/contact-info', authenticate, createContactMethod);
-router.delete('/contact-info/:id', authenticate, deleteContactMethod);
+router.post('/contact-info', authMiddleware, createContactMethod);
+router.delete('/contact-info/:id', authMiddleware, deleteContactMethod);
 
 export default router;
