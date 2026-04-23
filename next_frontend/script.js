@@ -84,7 +84,7 @@ initReveal();
 // ═══════════════════════════════════════
 // API CONFIGURATION
 // ═══════════════════════════════════════
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'https://nextwebsolution-backend.onrender.com/api';
 
 // ═══════════════════════════════════════
 // FORM SUBMIT
