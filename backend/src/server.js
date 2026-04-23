@@ -80,10 +80,20 @@ app.use((req, res) => {
 });
 
 // Test database connection and start server
+console.log('🔍 Attempting to connect to database...');
+console.log(`Database URL configured: ${process.env.DATABASE_URL ? '✅ Yes' : '❌ No'}`);
+
 pool.query('SELECT NOW()', (err, result) => {
   if (err) {
     console.error('❌ Database Connection Failed:', err.message);
-    process.exit(1);
+    console.error('⚠️  Continuing anyway... Server will start but database queries will fail');
+    console.error('❌ Make sure DATABASE_URL is set in Render environment variables');
+
+    // Start server anyway so we can see health check
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on http://localhost:${PORT} (without database)`);
+      console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+    });
   } else {
     console.log('✅ Database Connected Successfully');
     console.log('📅 Server Time:', result.rows[0].now);
