@@ -18,17 +18,35 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5000',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:5000'
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5000",
+      "http://localhost:5500",
+      "http://localhost:8080",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:5000",
+      "http://127.0.0.1:5500",
+      "http://127.0.0.1:8080",
+      process.env.FRONTEND_URL,
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Logging middleware
+app.use((req, res, next) => {
+  console.log(`\n🔵 ${req.method} ${req.path}`);
+  console.log(`Origin: ${req.headers.origin || 'unknown'}`);
+  console.log(`Content-Type: ${req.headers['content-type']}`);
+  if (req.method === 'POST' || req.method === 'PUT') {
+    console.log(`Body size: ${JSON.stringify(req.body).length} bytes`);
+  }
+  next();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);

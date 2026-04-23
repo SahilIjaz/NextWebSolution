@@ -8,29 +8,60 @@ const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev';
 export const sendFormConfirmationEmails = async (contactData) => {
   const { firstName, lastName, email, service, message, budget } = contactData;
 
+  console.log('\n📧 ════════════════════════════════════════════');
+  console.log('📧 SENDING CONFIRMATION EMAILS');
+  console.log('📧 ════════════════════════════════════════════');
+  console.log(`Resend API Key: ${process.env.RESEND_API_KEY ? '✅ Configured' : '❌ MISSING'}`);
+  console.log(`Admin Email: ${ADMIN_EMAIL}`);
+  console.log(`From Email: ${FROM_EMAIL}`);
+  console.log(`Submitter Email: ${email}`);
+  console.log('📧 ════════════════════════════════════════════\n');
+
   try {
     // Email 1: Send to your Gmail inbox
-    await resend.emails.send({
+    console.log(`📧 Email 1️⃣: Sending admin notification to ${ADMIN_EMAIL}...`);
+    const adminEmailResult = await resend.emails.send({
       from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       subject: `New Contact Form Submission - ${firstName} ${lastName}`,
       html: generateAdminEmail(contactData),
     });
+    console.log(`✅ Admin email sent successfully. ID: ${adminEmailResult.id}`);
 
     // Email 2: Send confirmation to form submitter
-    await resend.emails.send({
+    // NOTE: In test mode, Resend only allows emails to the verified account email
+    // So we send a copy to the admin instead, which includes submitter's info
+    console.log(`📧 Email 2️⃣: Sending confirmation to ${email}...`);
+    console.log(`⚠️  Note: In test mode, sending to admin (${ADMIN_EMAIL}) instead`);
+    const submitterEmailResult = await resend.emails.send({
       from: FROM_EMAIL,
-      to: email,
-      subject: 'We Received Your Message - NextWeb Solutions',
-      html: generateConfirmationEmail(firstName),
+      to: ADMIN_EMAIL, // Send to admin in test mode
+      subject: `Confirmation: ${firstName} ${lastName} submitted form`,
+      html: `
+        <h2>✅ Form Submission Confirmation</h2>
+        <p>A form has been submitted with the following details:</p>
+        <p><strong>From:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+        <p><strong>Service:</strong> ${service}</p>
+        <p><strong>Message:</strong> ${message}</p>
+        <p><em>Note: In production, a confirmation email will be sent directly to ${email}</em></p>
+      `
     });
+    console.log(`✅ Confirmation sent to admin. ID: ${submitterEmailResult.id}`);
 
+    console.log('✅ Both emails sent successfully!\n');
     return {
       success: true,
       message: 'Emails sent successfully',
     };
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error('\n❌ ════════════════════════════════════════════');
+    console.error('❌ EMAIL SENDING ERROR');
+    console.error('❌ ════════════════════════════════════════════');
+    console.error('Error message:', error.message);
+    console.error('Error code:', error.code);
+    console.error('Full error:', JSON.stringify(error, null, 2));
+    console.error('❌ ════════════════════════════════════════════\n');
     return {
       success: false,
       message: 'Failed to send emails',

@@ -3,9 +3,29 @@ import { sendFormConfirmationEmails } from '../services/emailService.js';
 
 export const submitContact = async (req, res) => {
   try {
+    console.log('📨 Form submission received');
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+
     const { firstName, lastName, email, phone, service, budget, message, agreeToTerms } = req.body;
 
+    console.log('Extracted values:');
+    console.log(`  firstName: "${firstName}" (${typeof firstName})`);
+    console.log(`  lastName: "${lastName}" (${typeof lastName})`);
+    console.log(`  email: "${email}" (${typeof email})`);
+    console.log(`  phone: "${phone}" (${typeof phone})`);
+    console.log(`  service: "${service}" (${typeof service})`);
+    console.log(`  budget: "${budget}" (${typeof budget})`);
+    console.log(`  message: "${message}" (${typeof message})`);
+    console.log(`  agreeToTerms: ${agreeToTerms} (${typeof agreeToTerms})`);
+
     if (!firstName || !lastName || !email || !service || !message) {
+      console.log('❌ Validation failed - missing required fields:');
+      console.log(`  firstName: ${!firstName ? '❌ MISSING' : '✅'}`);
+      console.log(`  lastName: ${!lastName ? '❌ MISSING' : '✅'}`);
+      console.log(`  email: ${!email ? '❌ MISSING' : '✅'}`);
+      console.log(`  service: ${!service ? '❌ MISSING' : '✅'}`);
+      console.log(`  message: ${!message ? '❌ MISSING' : '✅'}`);
+
       return res.status(400).json({
         status: 400,
         success: false,
@@ -18,6 +38,7 @@ export const submitContact = async (req, res) => {
     }
 
     if (!agreeToTerms) {
+      console.log('❌ Validation failed - agreeToTerms not checked');
       return res.status(400).json({
         status: 400,
         success: false,
@@ -29,6 +50,9 @@ export const submitContact = async (req, res) => {
       });
     }
 
+    console.log('✅ All validations passed');
+
+    console.log('💾 Inserting into database...');
     const result = await pool.query(
       `INSERT INTO contacts (first_name, last_name, email, phone, service, budget, message, agree_to_terms, status)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'new')
@@ -37,12 +61,17 @@ export const submitContact = async (req, res) => {
     );
 
     const contact = result.rows[0];
+    console.log('✅ Database insert successful. Contact ID:', contact.id);
 
     // Send confirmation emails asynchronously (don't block the response)
-    sendFormConfirmationEmails(contact).catch(err => {
-      console.error('Failed to send emails:', err);
+    console.log('📧 Sending confirmation emails...');
+    sendFormConfirmationEmails(contact).then(() => {
+      console.log('✅ Emails sent successfully');
+    }).catch(err => {
+      console.error('❌ Failed to send emails:', err.message);
     });
 
+    console.log('✅ Form submission completed successfully');
     res.status(201).json({
       status: 201,
       success: true,
@@ -50,6 +79,10 @@ export const submitContact = async (req, res) => {
       data: contact
     });
   } catch (error) {
+    console.error('❌ ERROR in submitContact:', error);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+
     res.status(500).json({
       status: 500,
       success: false,
