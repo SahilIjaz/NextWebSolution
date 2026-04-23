@@ -1,6 +1,5 @@
 // Simple script to load testimonials from API and display them
-
-const API_BASE_URL = 'http://localhost:8000/api';
+// API_BASE_URL is defined in script.js
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
