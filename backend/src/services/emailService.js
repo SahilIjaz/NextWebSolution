@@ -71,7 +71,10 @@ export const sendFormConfirmationEmails = async (contactData) => {
 };
 
 const generateAdminEmail = (data) => {
-  const { firstName, lastName, email, phone, service, budget, message, createdAt } = data;
+  const { first_name, last_name, email, phone, service, budget, message, created_at } = data;
+  const firstName = first_name;
+  const lastName = last_name;
+  const createdAt = created_at;
 
   return `
     <!DOCTYPE html>
@@ -125,10 +128,9 @@ const generateAdminEmail = (data) => {
             </div>
             <div class="field">
               <span class="label">Submitted At:</span>
-              <div class="value">${new Date(createdAt).toLocaleString()}</div>
+              <div class="value">${new Date(createdAt).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
             </div>
             <div class="footer">
-              <p>✅ A confirmation email has been sent to ${email}</p>
               <p>👉 Reply to this email or contact them directly at ${email}</p>
             </div>
           </div>
