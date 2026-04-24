@@ -316,13 +316,13 @@ function populatePortfolioProjects(projects) {
     if (!container) return;
 
     container.innerHTML = projects.map((project, idx) => `
-        <div class="portfolio-card reveal ${idx > 0 ? 'reveal-delay-' + (idx % 2) : ''}">
+        <div class="portfolio-card reveal ${idx > 0 ? 'reveal-delay-' + (idx % 2) : ''}" style="cursor: pointer;" onclick="window.open('${project.live_link}', '_blank')">
             <div class="portfolio-thumb">
                 <div class="portfolio-thumb-inner" style="background:linear-gradient(135deg,#0f3460,#533483)" aria-hidden="true">
                     ${project.thumbnail_url ? `<img src="${project.thumbnail_url}" alt="${project.title}" style="width:100%; height:100%; object-fit:cover;">` : 'PROJECT'}
                 </div>
                 <div class="portfolio-overlay" aria-hidden="true">
-                    <a class="btn btn-primary" onclick="navigate('contact')">View Case Study ↗</a>
+                    <a class="btn btn-primary" onclick="event.stopPropagation(); window.open('${project.live_link}', '_blank')">View Live Project ↗</a>
                 </div>
             </div>
             <div class="portfolio-info">
